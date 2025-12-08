@@ -59,3 +59,25 @@ router.post("/delete", async (req, res) => {
 
 
 export default router;
+
+// Category wise news
+router.get("/by-category/:cat", async (req, res) => {
+    try {
+        const cat = req.params.cat;
+        const data = await News.find({ category: cat }).sort({ _id: -1 });
+        res.json({ status: "success", data });
+    } catch (error) {
+        res.status(500).json({ status: "error", msg: "Unable to fetch category news" });
+    }
+});
+
+// Single news by id
+router.get("/by-id/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const item = await News.findById(id);
+        res.json({ status: "success", data: item });
+    } catch (error) {
+        res.status(500).json({ status: "error", msg: "Unable to fetch news" });
+    }
+});
